@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: employee-attendance
+  name: employee-attendance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employee-attendance
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: employee-attendance
+    spec:
+      containers:
+      - image: training/employee-attendance:S1
+        name: employee-attendance
+        resources: {}
+status: {}

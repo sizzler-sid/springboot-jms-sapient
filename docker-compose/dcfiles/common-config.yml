@@ -1,0 +1,26 @@
+services:
+  network-deploy-service:
+    networks:
+      - training
+
+  microservice-base-config:
+    extends:
+      service: network-deploy-service
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    environment:
+      #JAVA_TOOL_OPTIONS: "-javaagent:/opt/app/libs/opentelemetry-javaagent-1.27.0.jar"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317
+      OTEL_METRICS_EXPORTER: none
+
+  microservice-eureka-config:
+    extends:
+      service: microservice-base-config
+    #depends_on:
+      #eurekaserver:
+        #condition: service_healthy
+    environment:
+      #EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://eurekaserver:8761/eureka"}}}}'

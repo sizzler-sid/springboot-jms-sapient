@@ -1,0 +1,49 @@
+server:
+  port: 8072
+spring:
+  application:
+    name: "gatewayserver"
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"
+          #jwk-set-uri: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+  serviceUrl:
+    defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "Employee Attendance Server Application"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      training:
+        gatewayserver: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
